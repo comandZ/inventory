@@ -4,10 +4,16 @@ This is a starter project learning to build and run server systems with the purp
 
 ## Dependencies
 
-- Node
-- Express
+- [Node](https://nodejs.org/en)
+- [Express](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Getting Started
 
 1. run: `npm install`
-2. run: `npm run dev`
+1. run: `npm run dev`
+
+### Further Reading
+
+1. [Express](https://expressjs.com/)
+1. [PostgreSQL](https://www.postgresql.org/)

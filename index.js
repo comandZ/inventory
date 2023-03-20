@@ -1,5 +1,8 @@
 // node webapp framework
 const express = require('express');
+
+const bodyParser = require('body-parser');
+
 // instantiate server app
 const app = express();
 const PORT = 8080
@@ -25,6 +28,11 @@ const INVENTORY = [
 },
 ];
 
+// MIDDLEWARE
+app.use(bodyParser.urlencoded({ extended: false }));
+// Parce application/json
+app.use(bodyParser.json());
+
 // Create app route (req: request, res: response)
 app.get('/', (req, res) => {
   res.send('Hello Fuker');
@@ -47,6 +55,16 @@ app.get('/inventory', (req, res) => {
 app.get('/inventory/last-item', (req, res) => {
   res.send(INVENTORY[INVENTORY.length - 1]);
 });
+
+app.post('/inventory', (req, res) => {
+  try {
+    const newInventory = req.body;
+
+    INVENTORY.post(newInventory);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

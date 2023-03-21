@@ -9,23 +9,26 @@ const PORT = 8080
 
 const INVENTORY = [
   {
-  name: 'chips', 
-  type: 'food', 
-  status: 'home',
-  quantity: 3
-},
-{
-  name: 'cookies', 
-  type: 'food', 
-  status: 'couch',
-  quantity: 6
-},
-{
-  name: 'movies', 
-  type: 'entertainment', 
-  status: 'living',
-  quantity: 300
-},
+    id: 1,
+    name: 'chips', 
+    type: 'food', 
+    status: 'home',
+    quantity: 3
+  },
+  {
+    id: 2,
+    name: 'cookies', 
+    type: 'food', 
+    status: 'couch',
+    quantity: 6
+  },
+  {
+    id: 3,
+    name: 'movies', 
+    type: 'entertainment', 
+    status: 'living',
+    quantity: 300
+  },
 ];
 
 // MIDDLEWARE
@@ -60,7 +63,50 @@ app.post('/inventory', (req, res) => {
   try {
     const newInventory = req.body;
 
-    INVENTORY.post(newInventory);
+    INVENTORY.push(newInventory);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+app.put('/inventory/:id', (req, res) => {
+  try {
+    const newData = req.body;
+    const inventroyId = parseInt(req.params.id);
+    // req.params = { id: ''}
+
+    for (let i = 0; i < INVENTORY.length; i++) {
+      const invItem = INVENTORY[i];
+  
+      if (invItem.id === inventroyId) {
+        if (typeof newData.name !== 'string') {
+          res.status(500);
+          res.send('Make it a string dummy');
+        }
+        INVENTORY[i] = {
+          ...invItem,
+          ...newData,
+        };
+      }
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+app.delete('/inventory/:id', (req, res) => {
+  try {
+    const inventoryId = parseInt(req.params.id);
+
+    for (let i = 0; i < INVENTORY.length; i++) {
+      const removeItem = INVENTORY[i];
+
+      if (removeItem.id === inventoryId) {
+        INVENTORY.splice(i, 1);
+      }
+    }
+    res.sendStatus(200);
   } catch (err) {
     res.sendStatus(500);
   }
